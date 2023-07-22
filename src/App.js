@@ -1,10 +1,11 @@
 import Header from "./layout/Header";
+import { AllRoutes } from "./routes/AllRoutes";
 
 function App() {
   return (
     <div>
-      <Header></Header>
-      <main></main>
+      <Header />
+      <AllRoutes></AllRoutes>
     </div>
   );
 }
