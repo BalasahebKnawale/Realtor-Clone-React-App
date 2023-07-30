@@ -1,12 +1,32 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import OAuth from "../components/OAuth";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { toast } from "react-toastify";
 
 const SignIn = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
 
   const onChangeHadler = (event) => {
     setFormData({ ...formData, [event.target.id]: event.target.value });
+  };
+  const navigator = useNavigate();
+  const formSubmitHandler = async (e) => {
+    e.preventDefault();
+
+    try {
+      const auth = getAuth();
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        formData.email,
+        formData.password
+      );
+      const user = userCredential.user;
+      if (user) navigator("/");
+      toast.success("loged in as a " + user.displayName);
+    } catch (error) {
+      toast.error("Bad Credentials");
+    }
   };
 
   return (
@@ -21,7 +41,7 @@ const SignIn = () => {
           ></img>
         </div>
         <div className="w-full md:w-[67%] lg:w-[40%] lg:ml-20 mb-12">
-          <form>
+          <form onSubmit={formSubmitHandler}>
             <input
               className="w-full rounded transition ease-in-out my-3"
               type="email"

@@ -1,12 +1,27 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import OAuth from "../components/OAuth";
+import { getAuth, sendPasswordResetEmail } from "firebase/auth";
+import { toast } from "react-toastify";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
 
   const onChangeHadler = (event) => {
     setEmail(event.target.value);
+  };
+  const formSubmitHandler = async (e) => {
+    e.preventDefault();
+
+    try {
+      const auth = getAuth();
+      await sendPasswordResetEmail(auth, email);
+
+      navigator("/");
+      toast.success("Email Sent ");
+    } catch (error) {
+      toast.error("Could not sent Link");
+    }
   };
   return (
     <section>
@@ -22,7 +37,7 @@ const ForgotPassword = () => {
           ></img>
         </div>
         <div className="w-full md:w-[67%] lg:w-[40%] lg:ml-20 mb-12">
-          <form>
+          <form onSubmit={formSubmitHandler}>
             <input
               className="w-full rounded transition ease-in-out my-3"
               type="email"
