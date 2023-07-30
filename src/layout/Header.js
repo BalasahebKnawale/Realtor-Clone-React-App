@@ -16,7 +16,7 @@ const Header = () => {
     return classes;
   };
   return (
-    <div className="  border-b  shadow-md">
+    <div className="  border-b bg-white  shadow-md">
       <header className="flex bg-white justify-between items-center max-w-7xl m-auto px-3 sticky top-0">
         <div>
           <img
