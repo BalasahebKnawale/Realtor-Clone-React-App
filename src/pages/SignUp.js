@@ -1,6 +1,14 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import OAuth from "../components/OAuth";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth";
+import { db } from "../firebase";
+import { doc, serverTimestamp, setDoc } from "firebase/firestore";
+import { toast } from "react-toastify";
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
@@ -13,6 +21,32 @@ const SignUp = () => {
     setFormData({ ...formData, [event.target.id]: event.target.value });
   };
 
+  const submitFormHandler = async (e) => {
+    e.preventDefault();
+
+    try {
+      const auth = getAuth();
+      const usercredential = await createUserWithEmailAndPassword(
+        auth,
+        formData.email,
+        formData.password
+      );
+      updateProfile(auth.currentUser, {
+        displayName: formData.name,
+      });
+      const user = usercredential.user;
+      delete formData.password;
+      formData.timestamp = serverTimestamp();
+      setDoc(doc(db, "users", user.uid), formData);
+      console.log(usercredential);
+      toast.success("SUCCSSFULL");
+      navigate("/");
+    } catch (error) {
+      toast.error("Error :" + error);
+    }
+  };
+
+  const navigate = useNavigate();
   return (
     <section>
       <div className="text-3xl font-semibold text-center mt-6">Sign Up</div>
@@ -25,7 +59,7 @@ const SignUp = () => {
           ></img>
         </div>
         <div className="w-full mb-12 md:w-[67%] lg:w-[40%] lg:ml-20">
-          <form>
+          <form onSubmit={submitFormHandler}>
             <input
               className="w-full rounded transition ease-in-out mb-3"
               type="text"
