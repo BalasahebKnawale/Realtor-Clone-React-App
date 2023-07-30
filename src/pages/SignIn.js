@@ -23,7 +23,7 @@ const SignIn = () => {
         <div className="w-full md:w-[67%] lg:w-[40%] lg:ml-20 mb-12">
           <form>
             <input
-              className="w-full rounded transition ease-in-out"
+              className="w-full rounded transition ease-in-out my-3"
               type="email"
               value={formData.email}
               placeholder="emaild Id"
@@ -32,14 +32,14 @@ const SignIn = () => {
             ></input>
 
             <input
-              className="w-full rounded transition ease-in-out my-6"
+              className="w-full rounded transition ease-in-out my-3"
               type="password"
               value={formData.password}
               placeholder="password"
               id="password"
               onChange={onChangeHadler}
             ></input>
-            <div className="flex justify-between text-sm sm:text-lg">
+            <div className="flex justify-between text-sm sm:text-lg my-1">
               <span>
                 Dont Have Account?{" "}
                 <Link
