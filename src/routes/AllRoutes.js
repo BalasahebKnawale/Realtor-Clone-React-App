@@ -5,13 +5,16 @@ import Offers from "../pages/Offers";
 import SignUp from "../pages/SignUp";
 import ForgotPassword from "../pages/ForgotPassword";
 import SignIn from "../pages/SignIn";
+import PrivateRoutes from "./PrivateRoutes";
 
 export const AllRoutes = () => {
   return (
     <>
       <Routes>
         <Route path="/" element={<HomePage />}></Route>
+        <Route path="/profile" element= {<PrivateRoutes/>}>
         <Route path="/profile" element={<Profile />}></Route>
+        </Route>
         <Route path="/offers" element={<Offers />}></Route>
         <Route path="/sign-up" element={<SignUp />}></Route>
         <Route path="/sign-in" element={<SignIn />}></Route>

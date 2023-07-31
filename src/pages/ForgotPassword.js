@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import OAuth from "../components/OAuth";
 import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 import { toast } from "react-toastify";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
-
+  const navigator = useNavigate();
   const onChangeHadler = (event) => {
     setEmail(event.target.value);
   };
@@ -16,11 +16,10 @@ const ForgotPassword = () => {
     try {
       const auth = getAuth();
       await sendPasswordResetEmail(auth, email);
-
-      navigator("/");
       toast.success("Email Sent ");
+      navigator("/");
     } catch (error) {
-      toast.error("Could not sent Link");
+      toast.error("Could not sent Link" + error);
     }
   };
   return (
